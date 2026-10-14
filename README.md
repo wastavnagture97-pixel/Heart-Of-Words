@@ -108,7 +108,7 @@ No installation, Node.js, or build pipeline is required. You can run this projec
 ### Option 1: Direct Open
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/wastavnagture-irl/Heart-of-Words.git
+   git clone https://wastavnagture97-pixel.github.io/Heart-Of-Words/
    cd Heart-of-Words
    ```
 2. Double click **`index.html`** or drag it into any modern web browser.
@@ -191,6 +191,6 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full details
 ---
 
 <div align="center">
-  <p>Crafted with ❤️ and code by <b><a href="https://github.com/wastavnagture-irl">@wastav.irl</a></b> (@wastav.irl)</p>
+  <p>Crafted with ❤️ and code by <b><a href="https://github.com/wastavnagture97-pixel">@wastav.irl</a></b> (@wastav.irl)</p>
   <p><i>If you enjoyed this project, please consider giving it a ⭐ on GitHub!</i></p>
 </div>
