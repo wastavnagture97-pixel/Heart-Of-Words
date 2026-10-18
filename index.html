@@ -8,7 +8,7 @@
   <title>Heart of Words | @wastav.irl</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,6 +17,102 @@
 
   <!-- Heart canvas where words trace the perimeter then cascade to fill the heart -->
   <canvas id="heartCanvas"></canvas>
+
+  <!-- Gentle Completion Message Banner (Reveals after heart forms) -->
+  <div id="completionBanner" class="completion-banner" aria-live="polite">
+    <span id="completionText" class="completion-text">Every word beats for you ✨</span>
+    <button id="dismissBannerBtn" class="dismiss-banner-btn" aria-label="Dismiss message">&times;</button>
+  </div>
+
+  <!-- Toast Notification (for share link feedback) -->
+  <div id="toastNotification" class="toast-notification" role="status" aria-live="polite"></div>
+
+  <!-- Floating Minimalist Controls Bar -->
+  <nav class="floating-dock" aria-label="Heart Animation Controls">
+    <button id="replayBtn" class="dock-btn" title="Replay Animation" aria-label="Replay animation">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      <span>Replay</span>
+    </button>
+    <button id="pauseBtn" class="dock-btn" title="Pause or Resume" aria-label="Pause animation">
+      <svg id="pauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <span id="pauseBtnLabel">Pause</span>
+    </button>
+    <button id="audioBtn" class="dock-btn" title="Toggle Ambient Harmony" aria-label="Toggle audio">
+      <svg id="audioIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      <span id="audioBtnLabel">Sound</span>
+    </button>
+    <button id="shareBtn" class="dock-btn" title="Copy Shareable Link" aria-label="Copy share link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <span>Share</span>
+    </button>
+    <button id="openCustomizeBtn" class="dock-btn dock-btn-accent" title="Customize Heart" aria-label="Open customization modal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span>Customize</span>
+    </button>
+  </nav>
+
+  <!-- Glassmorphism Customization Modal -->
+  <div id="modalOverlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">✨ Customize Heart</h2>
+        <button id="closeModalBtn" class="modal-close-btn" aria-label="Close customization modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Message Setting -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="messageInput">Heart Message</label>
+            <span id="charCount" class="char-count">10/24</span>
+          </div>
+          <div class="input-action-row">
+            <input type="text" id="messageInput" maxlength="24" placeholder="I Love You" autocomplete="off" spellcheck="false" />
+            <button type="button" id="applyMessageBtn" class="btn-primary">Apply</button>
+          </div>
+        </div>
+
+        <!-- Theme Selector -->
+        <div class="form-group">
+          <label>Color Theme</label>
+          <div class="theme-options" role="radiogroup" aria-label="Select color theme">
+            <button type="button" class="theme-chip active" data-theme="crimson" role="radio" aria-checked="true">
+              <span class="color-dot crimson-dot"></span>
+              <span>Crimson</span>
+            </button>
+            <button type="button" class="theme-chip" data-theme="rose" role="radio" aria-checked="false">
+              <span class="color-dot rose-dot"></span>
+              <span>Rose Pink</span>
+            </button>
+            <button type="button" class="theme-chip" data-theme="violet" role="radio" aria-checked="false">
+              <span class="color-dot violet-dot"></span>
+              <span>Cyber Violet</span>
+            </button>
+            <button type="button" class="theme-chip" data-theme="amber" role="radio" aria-checked="false">
+              <span class="color-dot amber-dot"></span>
+              <span>Sunset Gold</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Speed Selector -->
+        <div class="form-group">
+          <label>Animation Speed</label>
+          <div class="speed-options" role="radiogroup" aria-label="Select animation speed">
+            <button type="button" class="speed-chip" data-speed="0.7" role="radio" aria-checked="false">0.7x (Slow)</button>
+            <button type="button" class="speed-chip active" data-speed="1.0" role="radio" aria-checked="true">1.0x (Normal)</button>
+            <button type="button" class="speed-chip" data-speed="1.4" role="radio" aria-checked="false">1.4x (Fast)</button>
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-footer">
+          <button type="button" id="modalShareBtn" class="btn-secondary">🔗 Copy Link</button>
+          <button type="button" id="resetDefaultsBtn" class="btn-secondary">↺ Restore Defaults</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
